@@ -255,14 +255,14 @@ variables:
     required: false
     visible: true
     default: "Non_Prod vcn"
-    title: Non_Prod name
+    title: NonProd name
     description: Choose a Non_Prod VCN name
 
   Non_Prod_vcn_dns_label:
     type: string
     required: false
     visible: true
-    default: Non_Prod vcn
+    default: NonProd vcn
     title: Non_Prod vcn dns label
 
   Dev_subnet_cidr_block:
