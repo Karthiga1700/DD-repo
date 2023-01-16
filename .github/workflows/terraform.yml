@@ -56,7 +56,7 @@ env:
   fingerprint = ${{secrets.KEY_FINGERPRINT}}
   private_key_path = ~/ .oci/oci_api_key.pem
   region = ${{secrets.OCI_REGION}}
-  ROOT_PATH: '${{ github.workspace }}/DD_VCN'
+  ROOT_PATH: '${{ github.workspace }}/DD VCN'
 
 # permissions:
 #   contents: read
