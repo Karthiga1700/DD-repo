@@ -1,14 +1,14 @@
 data oci_objectstorage_namespace export_namespace {
-  compartment_id = var.compartment_ocid
+  compartment_id = var.OCI_CLI_COMPARTMENT
 }
  provider "oci" {
-        region             = var.region
-        tenancy_ocid       = var.tenancy_ocid
+        OCI_CLI_REGION             = var.OCI_CLI_REGION
+        OCI_CLI_TENANCY       = var.OCI_CLI_TENANCY
         }
  
-variable "tenancy_ocid" {}
-variable "region" {}
-variable "compartment_ocid" {}
+variable "OCI_CLI_TENANCY" {}
+variable "OCI_CLI_REGION" {}
+variable "OCI_CLI_COMPARTMENT" {}
 variable "project_tag" { 
   type = map
   default = {} 
@@ -34,7 +34,7 @@ variable "project_tag" {
    }
    
   resource "oci_objectstorage_bucket"  "Object_Bucket"  {  
-    compartment_id      = var.compartment_ocid
+    compartment_id      = var.OCI_CLI_COMPARTMENT
     name                = var.bucket_name     
     namespace           = data.oci_objectstorage_namespace.export_namespace.namespace
     access_type         = var.bucket_access_type
