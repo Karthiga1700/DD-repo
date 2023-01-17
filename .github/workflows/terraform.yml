@@ -50,7 +50,7 @@ on:
   pull_request:
 
 env: 
-  tenancy_ocid = ${{secrets.OCI_TENANCY_OCID}}
+  tenancy=${{secrets.OCI_TENANCY_OCID}}
   user_ocid = ${{secrets.OCI_USER_OCID}}
   fingerprint = ${{secrets.OCI_FINGERPRINT}}
   private_key_path = ${{secrets.OCI_KEY_FILE}}
