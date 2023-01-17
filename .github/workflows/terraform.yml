@@ -1,4 +1,4 @@
-- name: 'Write Config & Key Files'
+- name: 'Terraform'
   run: |
     mkdir ~/.oci
     echo "[DEFAULT]" >> ~/.oci/config
