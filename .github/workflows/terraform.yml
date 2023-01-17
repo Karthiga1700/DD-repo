@@ -50,7 +50,11 @@ on:
   pull_request:
 
 env: 
-  echo "tenancy=${{secrets.OCI_TENANCY_OCID}}"
+  OCI_CLI_USER: ${{ secrets.OCI_USER_OCID }}
+  OCI_CLI_TENANCY: ${{ secrets.OCI_TENANCY_OCID }}
+  OCI_CLI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
+  OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_KEY_FILE }}
+  OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
 
 permissions:
   contents: read
