@@ -28,7 +28,7 @@ jobs:
       - name: 'Validate Terraform'
         id: validate
         run: terraform validate
-        working-directory: "bucket"
+        working-directory: "Gitaction/bucket"
       
       - name: 'Terraform Plan'
         id: plan 
