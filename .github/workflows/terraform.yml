@@ -29,7 +29,7 @@ jobs:
 
   Stack1_VCN:
     if : github.event.pull_request.merged == true
-    runs-on: [self-hosted, uhg-runner]
+    runs-on: [self-hosted]
     environment: terraform-plan
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
 
