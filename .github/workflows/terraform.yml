@@ -25,9 +25,9 @@ env:
 permissions:
   contents: read
 
-jobs:
+job:
 
-  Stack1_Compartments:
+  Stack1_VCN:
     if : github.event.pull_request.merged == true
     runs-on: [self-hosted, uhg-runner]
     environment: terraform-plan
@@ -36,9 +36,9 @@ jobs:
   STACK_NAME_VCN:
     runs-on: 
     environment: terraform-plan
-    steps:
+    step:
       - name: checkout
-        uses: actions/checkout@v2
+        use: actions/checkout@v2
       - name: 'Writing config files'
         run: |
           mkdir ~/.oci
