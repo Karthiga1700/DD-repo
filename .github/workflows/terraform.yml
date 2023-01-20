@@ -37,8 +37,7 @@ jobs:
     runs-on: [self-hoste]
     environment: terraform-plan
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: 'Writing config files'
         run: |
           mkdir ~/.oci
