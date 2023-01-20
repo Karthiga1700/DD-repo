@@ -23,7 +23,6 @@ jobs:
       OCI_COMPARTMENT_NAME: ${{ secrets.OCI_COMPARTMENT_NAME }}
     steps:
       - uses: actions/checkout@v2
-
       - name: Retrieve the OCID of a named compartment in tenancy
         uses: ./
         id: find-compartment-id
