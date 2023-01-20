@@ -19,7 +19,8 @@ jobs:
       OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
       OCI_KEY_FILE: ${{ secrets.OCI_KEY_FILE }}
       OCI_REGION: ${{ secrets.OCI_REGION }}
-      OCI_CLI_COMPARTMENT_OCID: ${{ secrets.OCI_CLI_COMPARTMENT_OCID }}
+      OCI_COMPARTMENT_OCID: ${{ secrets.OCI_COMPARTMENT_OCID }}
+      OCI_COMPARTMENT_NAME: ${{ secrets.OCI_COMPARTMENT_NAME }}
     steps:
       - uses: actions/checkout@v2
 
@@ -28,7 +29,7 @@ jobs:
         id: find-compartment-id
         with:
           command: 'iam compartment list --compartment-id-in-subtree=true'
-          query: "data[?name=='${{ secrets.OCI_CLI_COMPARTMENT_OCID }}'].id"
+          query: "data[?name=='${{ secrets.OCI_COMPARTMENT_NAME }}'].id"
 
       - name: Find instances in the named compartment
         uses: ./
