@@ -146,18 +146,18 @@ jobs:
           cat ~/validate_tfplan.sh
           chmod 755 ~/validate_tfplan.sh
 
-      - name: "S3.1 Validate"
-        run: echo "SKIP_TF_APPLY=$(sh ~/validate_tfplan.sh)" >> $GITHUB_ENV
-      - name: "S3.1 SKIP_APPLY from env variables is "
-        run: echo "${{env.SKIP_TF_APPLY}}"
-      - name: 'S3.1 Manually validate the terraform plan and approve the apply action'
-        if: ${{env.SKIP_TF_APPLY == 'no' }}
-        uses: uhg-actions/manual-approval@v1
-        with:
-          secret: ${{ secrets.REPO_TOKEN }}
+     # - name: "S3.1 Validate"
+     #   run: echo "SKIP_TF_APPLY=$(sh ~/validate_tfplan.sh)" >> $GITHUB_ENV
+     # - name: "S3.1 SKIP_APPLY from env variables is "
+    #    run: echo "${{env.SKIP_TF_APPLY}}"
+    #  - name: 'S3.1 Manually validate the terraform plan and approve the apply action'
+     #   if: ${{env.SKIP_TF_APPLY == 'no' }}
+     #   uses: uhg-actions/manual-approval@v1
+      #  with:
+       #   secret: ${{ secrets.REPO_TOKEN }}
           #approvers: shuk-yin-lee_uhg,sarath-ananthu_uhg,anand-gummadi_uhg,dinesh-villuri_uhg
           #minimum-approvals: 1
-          issue-title: "Stack VCN: Deploying Terraform plan to apply"
+       #   issue-title: "Stack VCN: Deploying Terraform plan to apply"
       # - name: 'S3.1. Terraform Apply for the IAM Policies'
       #   if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'no' }}
       #   run: |
