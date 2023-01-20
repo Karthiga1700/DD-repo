@@ -25,7 +25,7 @@ env:
 permissions:
   contents: read
 
-job:
+jobs:
 
   Stack1_VCN:
     if : github.event.pull_request.merged == true
@@ -34,11 +34,11 @@ job:
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
 
   STACK_NAME_VCN:
-    runs-on: 
+    runs-on: [self-hoste]
     environment: terraform-plan
-    step:
+    steps:
       - name: checkout
-        use: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: 'Writing config files'
         run: |
           mkdir ~/.oci
