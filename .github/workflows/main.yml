@@ -30,7 +30,7 @@ jobs:
          ./install.sh --accept-all-defaults
       - name: 'Create Instance'
         run: |
-          echo "::set-env name=INSTANCE_OCID::$( \
+          echo "name=INSTANCE_OCID$( \
           oci compute instance launch \
             --compartment-id ${{secrets.VM_COMPARTMENT_OCID}} \
             --availability-domain ${{secrets.VM_AVAILABILITY_DOMAIN}} \
