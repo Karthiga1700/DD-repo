@@ -1,7 +1,3 @@
-provider "oci" {
-  region = var.region
-  tenancy_ocid = var.tenancy_ocid
-}
 
 ######################################
 
@@ -260,4 +256,9 @@ resource "oci_core_security_list" "Prod_security_list" {
     #Required
     compartment_id = var.compartment_ocid
     vcn_id = oci_core_vcn.Prod_vcn.id
+}
+
+provider "oci" {
+  region = var.region
+  tenancy_ocid = var.tenancy_ocid
 }
