@@ -24,18 +24,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Retrieve the OCID of a named compartment in tenancy
-        uses: ./
+        uses: oracle-actions/run-oci-cli-command@v1.1
         id: find-compartment-id
         with:
           command: 'iam compartment list --compartment-id-in-subtree=true'
           query: "data[?name=='${{ secrets.OCI_COMPARTMENT_NAME }}'].id"
 
-      - name: Find instances in the named compartment
-        uses: ./
+      - name: Retrieve the display name and shape of the instances in my compartment
+        uses: oracle-actions/run-oci-cli-command@v1.1
         id: find-instances
         with:
           command: 'compute instance list --compartment-id ${{ steps.find-compartment-id.outputs.raw_output }}'
           query: 'data[*].{name: \"display-name\", shape: shape}'
 
       - name: List the found instances
-        run: echo ${{ steps.find-instances.outputs.output }} | jq .
+        run: echo ${{ steps.find-my-compartment-instances.outputs.output }} | jq .
