@@ -1,41 +1,28 @@
-name: Test the run-oci-cli-command action
+name: ci
 
-on:
-  pull_request:
-    branches:
-      - main
+on: 
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  get-running-instances:
+  deploy:
     runs-on: ubuntu-latest
-    name: Use the run-oci-cli-command to retrieve a list of running instances
-    env:
-      OCI_USER_OCID: ${{ secrets.OCI_USER_OCID }}
-      OCI_TENANCY_OCID: ${{ secrets.OCI_TENANCY_OCID }}
-      OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
-      OCI_KEY_FILE: ${{ secrets.OCI_KEY_FILE }}
-      OCI_REGION: ${{ secrets.OCI_REGION }}
-      OCI_COMPARTMENT_OCID: ${{ secrets.OCI_COMPARTMENT_OCID }}
-      OCI_COMPARTMENT_NAME: ${{ secrets.OCI_COMPARTMENT_NAME }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Retrieve the OCID of a named compartment in tenancy
-        uses: oracle-actions/run-oci-cli-command@v1.1
-        id: find-compartment-id
-        with:
-          command: 'iam compartment list --compartment-id-in-subtree=true'
-          query: "data[?name=='${{ secrets.OCI_COMPARTMENT_NAME }}'].id"
 
-      - name: Retrieve the display name and shape of the instances in my compartment
-        uses: oracle-actions/run-oci-cli-command@v1.1
-        id: find-instances
+      - uses: actions/checkout@v1
+      
+      - name: Install oci-cli
+        uses: bytesbay/oci-cli-action@v1.0.2
         with:
-          command: 'compute instance list --compartment-id ${{ steps.find-compartment-id.outputs.raw_output }}'
-          query: 'data[*].{name: \"display-name\", shape: shape}'
+          user: "${{ secrets.OCI_USER }}"
+          fingerprint: "${{ secrets.OCI_FINGERPRINT }}"
+          tenancy: "${{ secrets.OCI_TENANCY }}"
+          region: "${{ secrets.OCI_REGION }}"
+          api_key: |
+            ${{ secrets.OCI_KEY_FILE }}
+          verbose: true
 
-      - name: List the found instances
-        run: echo ${{ steps.find-my-compartment-instances.outputs.output }} | jq .
+      - run: cat ~/.oci/config
+
+      - run: oci -v
