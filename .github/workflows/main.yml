@@ -28,4 +28,18 @@ jobs:
          curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
          chmod +x install.sh
          ./install.sh --accept-all-defaults
- 
+      - name: 'Create Instance'
+        run: |
+          echo "::set-env name=INSTANCE_OCID::$( \
+          oci compute instance launch \
+            --compartment-id ${{secrets.VM_COMPARTMENT_OCID}} \
+            --availability-domain ${{secrets.VM_AVAILABILITY_DOMAIN}} \
+            --shape ${{secrets.VM_SHAPE}} \
+            --assign-public-ip true \
+            --display-name cicd-demo \
+            --image-id ${{secrets.VM_CUSTOM_IMAGE_OCID}} \
+            --subnet-id ${{secrets.VM_SUBNET_OCID}} \
+            --wait-for-state RUNNING \
+            --query "data.id" \
+            --raw-output \
+          )"
