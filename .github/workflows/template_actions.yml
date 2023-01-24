@@ -52,3 +52,4 @@ jobs:
           /home/runner/bin/oci setup repair-file-permissions --file ~/.oci/key.pem
           echo " oci os ns get"
           /home/runner/bin/oci os ns get
+         
