@@ -38,7 +38,7 @@ jobs:
           echo "compartment_ocid=${{secrets.COMPARTMENT_OCID}}" >> ~/.oci/config
           echo "region=${{secrets.REGION}}" >> ~/.oci/config
           echo "tenancy=${{secrets.TENANCY_OCID}}" >> ~/.oci/config
-          echo "key_file=${{secrets.key.pem}}" >> ~/.oci/config
+          #echo "key_file=${{secrets.key.pem}}" >> ~/.oci/config
           echo "${{secrets.PRIVATE_KEY_FILE}}" >> ~/.oci/key.pem
        
       - name: 'Install OCI CLI'
