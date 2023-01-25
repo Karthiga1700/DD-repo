@@ -89,7 +89,7 @@ jobs:
             --config-source-branch-name $BRANCH_NAME \
             --config-source-repository-url $REPO_URL \
             --config-source-working-directory $WORKING_DIRECTORY_Bucket \
-            --variables file://Bucket/tfvars.tf \
+            --variables file://Bucket/terraform.tfvars \
             --wait-for-state ACTIVE \
             --force
 
