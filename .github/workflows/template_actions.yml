@@ -141,7 +141,7 @@ jobs:
         run: echo "${{env.SKIP_TF_APPLY}}"
       - name: 'Manually validate the terraform plan and approve the apply action'
         if: ${{env.SKIP_TF_APPLY == 'no' }}
-        uses: Karthiga1700/DD-repo/auto-approve-action@v2
+       #uses: Karthiga1700/DD-repo/auto-approve-action@v2
         with:
           secret: ${{ secrets.REPO_TOKEN }}
           #approvers: shuk-yin-lee_uhg,sarath-ananthu_uhg,anand-gummadi_uhg,dinesh-villuri_uhg
