@@ -140,11 +140,9 @@ jobs:
         run: echo "${{env.SKIP_TF_APPLY}}"
       - name: 'Manually validate the terraform plan and approve the apply action'
         if: ${{env.SKIP_TF_APPLY == 'no' }}
-       #uses: Karthiga1700/DD-repo/auto-approve-action@v2
+        uses: actions/checkout@v2
         with:
           secret: ${{ secrets.REPO_TOKEN }}
-          #approvers: shuk-yin-lee_uhg,sarath-ananthu_uhg,anand-gummadi_uhg,dinesh-villuri_uhg
-          #minimum-approvals: 1
           issue-title: "Stack Buckets: Deploying Terraform plan to apply"
       - name: 'Terraform Apply for the stack compartments'
         if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'no' }}
