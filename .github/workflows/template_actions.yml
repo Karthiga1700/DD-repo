@@ -23,7 +23,6 @@ permissions:
   contents: read
 
 jobs:
-
   Stack_Bucket:
     runs-on: ubuntu-latest
 
