@@ -133,17 +133,20 @@ jobs:
           echo 'fi' >> ~/validate_tfplan.sh
           cat ~/validate_tfplan.sh
           chmod 755 ~/validate_tfplan.sh
-         
+          
       - name: "Validate"
         run: echo "SKIP_TF_APPLY=$(sh ~/validate_tfplan.sh)" >> $GITHUB_ENV
+        
       - name: "SKIP_APPLY from env variables is "
         run: echo "${{env.SKIP_TF_APPLY}}"
+        
       - name: 'Manually validate the terraform plan and approve the apply action'
-        if: ${{env.SKIP_TF_APPLY == 'no' }}
+        if: ${{env.SKIP_TF_APPLY == 'yes' }}
         uses: actions/checkout@v2
         with:
           secret: ${{ secrets.REPO_TOKEN }}
           issue-title: "Stack Buckets: Deploying Terraform plan to apply"
+          
       - name: 'Terraform Apply for the stack compartments'
         if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'no' }}
         run: |
