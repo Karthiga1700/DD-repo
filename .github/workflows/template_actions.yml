@@ -153,7 +153,7 @@ jobs:
           echo "APPLY_JOB_ID=$(/home/runner/bin/oci resource-manager job create-apply-job \
             --execution-plan-strategy FROM_PLAN_JOB_ID \
             --execution-plan-job-id $PLAN_JOB_ID \
-            --stack-id $STACK_ID_COMPARTMENTS \
+            --stack-id $STACK_ID_Buckets \
              | jq '.data.id' -r)" >> $GITHUB_ENV
       - name: 'Wait for Terraform Apply to complete'
         if: ${{env.APPLY_JOB_ID != ''}}
