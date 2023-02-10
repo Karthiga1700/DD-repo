@@ -155,20 +155,20 @@ jobs:
             --execution-plan-job-id $PLAN_JOB_ID \
             --stack-id $STACK_ID_COMPARTMENTS \
              | jq '.data.id' -r)" >> $GITHUB_ENV
-    #  - name: 'Wait for Terraform Apply to complete'
-    #    if: ${{env.APPLY_JOB_ID != ''}}
-    #    run: |
-    #      while true
-    #      do
-    #        JOB_STATUS=$(/home/runner/bin/oci resource-manager job get --job-id ${{env.APPLY_JOB_ID}}  | jq '.data' | grep lifecycle-state | awk '{print $2}' | tr -d '"' | tr -d ',')
-    #        if [ "$JOB_STATUS" == "SUCCEEDED" ]; then
-    #          echo "Terraform Apply: $JOB_STATUS"
-    #          break
-    #        elif [ "$JOB_STATUS" == "FAILED" ]; then
-   #           echo "Terraform Apply: $JOB_STATUS"
-    #          exit 1
-    #        else
-    #          echo "Terraform Apply: $JOB_STATUS"
-    #          sleep 30
-    #        fi
-    #      done
+      - name: 'Wait for Terraform Apply to complete'
+        if: ${{env.APPLY_JOB_ID != ''}}
+        run: |
+          while true
+          do
+            JOB_STATUS=$(/home/runner/bin/oci resource-manager job get --job-id ${{env.APPLY_JOB_ID}}  | jq '.data' | grep lifecycle-state | awk '{print $2}' | tr -d '"' | tr -d ',')
+            if [ "$JOB_STATUS" == "SUCCEEDED" ]; then
+              echo "Terraform Apply: $JOB_STATUS"
+              break
+            elif [ "$JOB_STATUS" == "FAILED" ]; then
+            echo "Terraform Apply: $JOB_STATUS"
+              exit 1
+            else
+              echo "Terraform Apply: $JOB_STATUS"
+              sleep 30
+           fi
+          done
