@@ -148,7 +148,7 @@ jobs:
           issue-title: "Stack Buckets: Deploying Terraform plan to apply"
           
       - name: 'Terraform Apply for the stack compartments'
-        if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'no' }}
+        if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'yes' }}
         run: |
           echo "APPLY_JOB_ID=$(/home/runner/bin/oci resource-manager job create-apply-job \
             --execution-plan-strategy FROM_PLAN_JOB_ID \
