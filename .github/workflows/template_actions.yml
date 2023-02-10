@@ -137,8 +137,8 @@ jobs:
       - name: "Validate"
         run: echo "SKIP_TF_APPLY=$(sh ~/validate_tfplan.sh)" >> $GITHUB_ENV
         
-     # - name: "SKIP_APPLY from env variables is "
-     #   run: echo "${{env.SKIP_TF_APPLY}}"
+      - name: "SKIP_APPLY from env variables is "
+        run: echo "${{env.SKIP_TF_APPLY}}"
         
      # - name: 'Manually validate the terraform plan and approve the apply action'
      #   if: ${{env.SKIP_TF_APPLY == 'yes' }}
@@ -148,7 +148,7 @@ jobs:
      #     issue-title: "Stack Buckets: Deploying Terraform plan to apply"
           
       - name: 'Terraform Apply for the stack compartments'
-        if: ${{env.PLAN_JOB_ID != ''}}
+        if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'no'}}
         run: |
           echo "APPLY_JOB_ID=$(/home/runner/bin/oci resource-manager job create-apply-job \
             --execution-plan-strategy FROM_PLAN_JOB_ID \
@@ -156,7 +156,7 @@ jobs:
             --stack-id $STACK_ID_COMPARTMENTS \
              | jq '.data.id' -r)" >> $GITHUB_ENV
       - name: 'Wait for Terraform Apply to complete'
-        if: ${{env.APPLY_JOB_ID = ''}}
+        if: ${{env.APPLY_JOB_ID != ''}}
         run: |
           while true
           do
