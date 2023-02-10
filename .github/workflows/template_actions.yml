@@ -156,7 +156,7 @@ jobs:
             --stack-id $STACK_ID_COMPARTMENTS \
              | jq '.data.id' -r)" >> $GITHUB_ENV
       - name: 'Wait for Terraform Apply to complete'
-        if: ${{env.APPLY_JOB_ID != ''}}
+        if: ${{env.APPLY_JOB_ID = ''}}
         run: |
           while true
           do
