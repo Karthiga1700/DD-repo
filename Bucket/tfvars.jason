@@ -5,5 +5,5 @@
   "region"           : "us-phoenix-1",
   "compartment_ocid" : "ocid1.compartment.oc1..aaaaaaaajegjm76o2n7e3uwhbf2a4gu7sf7exez4tliwjhxnfuhlymg2636a",
   "bucket_name"      : "Test Bucket",
-  "bucket_namespace" : "Test Bucket"
+  "bucket_namespace" : "Test-Bucket"
 }
