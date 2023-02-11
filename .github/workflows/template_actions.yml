@@ -13,11 +13,10 @@ on:
       - "develop"
 env:
   PROVIDER_NAME: "GitHub"
-  REGION: "us-pheonix-1"
+  REGION: "us-phoenix-1"
   BRANCH_NAME: "feature-buckets"
   STACK_NAME_Bucket: "Stack_Bucket_GitHubActions"
   WORKING_DIRECTORY_Bucket: "Bucket"
-
   REPO_URL: "https://github.com/Karthiga1700/DD-repo.git"
   TF_VERSION: "1.0.x"
 
@@ -32,6 +31,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      
       - name: 'Writing config files'
         run: |
           mkdir ~/.oci
@@ -62,13 +62,16 @@ jobs:
           /home/runner/bin/oci setup repair-file-permissions --file ~/.oci/key.pem
           echo " oci os ns get"
           /home/runner/bin/oci os ns get
+      
       - name: 'Check for provider'
         run: |
           echo "SOURCE_PROVIDER_ID=$(/home/runner/bin/oci resource-manager configuration-source-provider list \
             --compartment-id ${{secrets.COMPARTMENT_OCID}} | jq '.data.items[] | select(."display-name"==env.PROVIDER_NAME).id' -r)" >> $GITHUB_ENV
+      
       - name: 'Check for existing stack compartments'
         run: |
           echo "STACK_ID_Buckets=$(/home/runner/bin/oci resource-manager stack list --all --compartment-id ${{secrets.COMPARTMENT_OCID}} | jq '.data[] | select(."display-name"==env.STACK_NAME_Bucket).id' -r)" >> $GITHUB_ENV
+      
       - name: 'Create Stack for Bucket'
         if: ${{env.STACK_ID_Buckets == ''}}
         run: |
@@ -82,6 +85,7 @@ jobs:
             --terraform-version $TF_VERSION \
             --variables '{"compartment_ocid": "${{secrets.COMPARTMENT_OCID}}", "region": "${{env.REGION}}"}' \
             --wait-for-state SUCCEEDED | jq '.data.id' -r)" >> $GITHUB_ENV
+      
       - name: 'Update Stack for Bucket'
         if: ${{env.STACK_ID_Buckets != ''}}
         run: |
@@ -100,6 +104,7 @@ jobs:
         run: |
           echo "PLAN_JOB_ID=$(/home/runner/bin/oci resource-manager job create-plan-job \
             --stack-id $STACK_ID_Buckets | jq '.data.id' -r)" >> $GITHUB_ENV
+      
       - name: 'Waiting for Terraform Plan to complete'
         if: ${{env.PLAN_JOB_ID != ''}}
         run: |
@@ -117,13 +122,16 @@ jobs:
              sleep 10
            fi
           done
+      
       - name: "Terraform plan output to GitHUb"
         if : ${{env.PLAN_JOB_ID != ''}}
         run: |
           /home/runner/bin/oci resource-manager job get-job-logs-content \
             --job-id $PLAN_JOB_ID --output table > ~/tfoutput.log
+      
       - name: "Display the terraform plan on console output"
         run: cat ~/tfoutput.log
+      
       - name: "Create a script to validate tf plan"
         run: |
           echo '#!/bin/sh' > ~/validate_tfplan.sh
@@ -136,16 +144,20 @@ jobs:
           echo 'fi' >> ~/validate_tfplan.sh
           cat ~/validate_tfplan.sh
           chmod 755 ~/validate_tfplan.sh
+      
       - name: "Validate"
         run: echo "SKIP_TF_APPLY=$(sh ~/validate_tfplan.sh)" >> $GITHUB_ENV
-      #- name: "SKIP_APPLY from env variables is "
+     
+     #- name: "SKIP_APPLY from env variables is "
        # run: echo "${{env.SKIP_TF_APPLY}}"
-      #- name: 'Manually validate the terraform plan and approve the apply action'
+     
+     #- name: 'Manually validate the terraform plan and approve the apply action'
       #  if: ${{env.SKIP_TF_APPLY == 'no' }}
        # uses: actions/checkout@v2
       #  with:
       #    secret: ${{ secrets.REPO_TOKEN }}
        #   issue-title: "Stack Compartments: Deploying Terraform plan to apply"
+     
       - name: 'Terraform Apply for the stack compartments'
         if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'no' }}
         run: |
@@ -154,6 +166,7 @@ jobs:
             --execution-plan-job-id $PLAN_JOB_ID \
             --stack-id $STACK_ID_Buckets \
              | jq '.data.id' -r)" >> $GITHUB_ENV
+      
       - name: 'Wait for Terraform Apply to complete'
         if: ${{env.APPLY_JOB_ID != ''}}
         run: |
