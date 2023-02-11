@@ -8,7 +8,7 @@ name: 'Deploy Infra stacks in OCI'
 on:
   pull_request:
     types:
-      - closed
+      - open
     branches:
       - "develop"
 env:
