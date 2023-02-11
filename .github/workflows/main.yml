@@ -14,7 +14,7 @@ on:
 env:
   PROVIDER_NAME: "GitHub"
   REGION: "us-pheonix-1"
-  BRANCH_NAME: "develop"
+  BRANCH_NAME: "feature-Buckets"
   STACK_NAME_Bucket: "Stack_Bucket_GitHubActions"
   WORKING_DIRECTORY_Bucket: "Bucket"
 
