@@ -5,14 +5,16 @@
 
 name: 'Deploy Infra stacks in OCI'
 
-on: 
- push:
+on:
+  pull_request:
+    types:
+      - closed
     branches:
-         - "main"
+      - "develop"
 env:
   PROVIDER_NAME: "GitHub"
   REGION: "us-pheonix-1"
-  BRANCH_NAME: "main"
+  BRANCH_NAME: "feature-buckets"
   STACK_NAME_Bucket: "Stack_Bucket_GitHubActions"
   WORKING_DIRECTORY_Bucket: "Bucket"
 
@@ -136,21 +138,21 @@ jobs:
           chmod 755 ~/validate_tfplan.sh
       - name: "Validate"
         run: echo "SKIP_TF_APPLY=$(sh ~/validate_tfplan.sh)" >> $GITHUB_ENV
-      - name: "SKIP_APPLY from env variables is "
-        run: echo "${{env.SKIP_TF_APPLY}}"
-      - name: 'Manually validate the terraform plan and approve the apply action'
-        if: ${{env.SKIP_TF_APPLY == 'no' }}
-        uses: actions/checkout@v2
-        with:
-          secret: ${{ secrets.REPO_TOKEN }}
-          issue-title: "Stack Compartments: Deploying Terraform plan to apply"
+      #- name: "SKIP_APPLY from env variables is "
+       # run: echo "${{env.SKIP_TF_APPLY}}"
+      #- name: 'Manually validate the terraform plan and approve the apply action'
+      #  if: ${{env.SKIP_TF_APPLY == 'no' }}
+       # uses: actions/checkout@v2
+      #  with:
+      #    secret: ${{ secrets.REPO_TOKEN }}
+       #   issue-title: "Stack Compartments: Deploying Terraform plan to apply"
       - name: 'Terraform Apply for the stack compartments'
         if: ${{env.PLAN_JOB_ID != '' && env.SKIP_TF_APPLY == 'no' }}
         run: |
           echo "APPLY_JOB_ID=$(/home/runner/bin/oci resource-manager job create-apply-job \
             --execution-plan-strategy FROM_PLAN_JOB_ID \
             --execution-plan-job-id $PLAN_JOB_ID \
-            --stack-id $STACK_ID_COMPARTMENTS \
+            --stack-id $STACK_ID_Buckets \
              | jq '.data.id' -r)" >> $GITHUB_ENV
       - name: 'Wait for Terraform Apply to complete'
         if: ${{env.APPLY_JOB_ID != ''}}
