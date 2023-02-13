@@ -123,6 +123,7 @@ jobs:
              sleep 10
            fi
           done
+      
       - name: "Terraform plan output to GitHUb"
         if : ${{env.PLAN_JOB_ID != ''}}
         run: |
