@@ -158,7 +158,7 @@ jobs:
       #  with:
       #    secret: ${{ secrets.REPO_TOKEN }}
       #    issue-title: "Stack Buckets: Deploying Terraform plan to apply"
-          
+        
       - name: 'Terraform Apply for the stack compartments'
         if: ${{env.PLAN_JOB_ID != ''}}
         run: |
