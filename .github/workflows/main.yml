@@ -32,6 +32,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      
       - name: 'Writing config files'
         run: |
           mkdir ~/.oci
@@ -66,9 +67,11 @@ jobs:
         run: |
           echo "SOURCE_PROVIDER_ID=$(/home/runner/bin/oci resource-manager configuration-source-provider list \
             --compartment-id ${{secrets.COMPARTMENT_OCID}} | jq '.data.items[] | select(."display-name"==env.PROVIDER_NAME).id' -r)" >> $GITHUB_ENV
+      
       - name: 'Check for existing stack compartments'
         run: |
           echo "STACK_ID_Buckets=$(/home/runner/bin/oci resource-manager stack list --all --compartment-id ${{secrets.COMPARTMENT_OCID}} | jq '.data[] | select(."display-name"==env.STACK_NAME_Bucket).id' -r)" >> $GITHUB_ENV
+      
       - name: 'Create Stack for Bucket'
         if: ${{env.STACK_ID_Buckets == ''}}
         run: |
@@ -82,6 +85,7 @@ jobs:
             --terraform-version $TF_VERSION \
             --variables '{"compartment_ocid": "${{secrets.COMPARTMENT_OCID}}", "region": "${{env.REGION}}"}' \
             --wait-for-state SUCCEEDED | jq '.data.id' -r)" >> $GITHUB_ENV
+      
       - name: 'Update Stack for Bucket'
         if: ${{env.STACK_ID_Buckets != ''}}
         run: |
