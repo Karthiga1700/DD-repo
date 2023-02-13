@@ -63,6 +63,7 @@ jobs:
           /home/runner/bin/oci setup repair-file-permissions --file ~/.oci/key.pem
           echo " oci os ns get"
           /home/runner/bin/oci os ns get
+      
       - name: 'Check for provider'
         run: |
           echo "SOURCE_PROVIDER_ID=$(/home/runner/bin/oci resource-manager configuration-source-provider list \
