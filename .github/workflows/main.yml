@@ -132,6 +132,7 @@ jobs:
       
       - name: "Display the terraform plan on console output"
         run: cat ~/tfoutput.log
+     
       - name: "Create a script to validate tf plan"
         run: |
           echo '#!/bin/sh' > ~/validate_tfplan.sh
