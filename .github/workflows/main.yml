@@ -129,6 +129,7 @@ jobs:
         run: |
           /home/runner/bin/oci resource-manager job get-job-logs-content \
             --job-id $PLAN_JOB_ID --output table > ~/tfoutput.log
+      
       - name: "Display the terraform plan on console output"
         run: cat ~/tfoutput.log
       - name: "Create a script to validate tf plan"
