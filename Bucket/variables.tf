@@ -4,4 +4,6 @@ variable "compartment_ocid"{}
 variable "bucket_name"{
     default = "TestBucket"
 }
-variable "bucket_namespace"{}
+variable "bucket_namespace"{
+     default = "TestBucket"
+}
