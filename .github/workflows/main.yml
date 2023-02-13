@@ -105,6 +105,7 @@ jobs:
         run: |
           echo "PLAN_JOB_ID=$(/home/runner/bin/oci resource-manager job create-plan-job \
             --stack-id $STACK_ID_Buckets | jq '.data.id' -r)" >> $GITHUB_ENV
+      
       - name: 'Waiting for Terraform Plan to complete'
         if: ${{env.PLAN_JOB_ID != ''}}
         run: |
