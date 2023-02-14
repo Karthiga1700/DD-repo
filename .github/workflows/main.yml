@@ -4,7 +4,6 @@
 # to the "main" branch, `terraform apply` will be executed.
 
 name: 'Deploy Infra stacks in OCI'
-
 on:
   pull_request:
     types:
