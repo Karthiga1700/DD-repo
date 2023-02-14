@@ -145,7 +145,7 @@ jobs:
           echo 'fi' >> ~/validate_tfplan.sh
           cat ~/validate_tfplan.sh
           chmod 755 ~/validate_tfplan.sh
-          
+        
       #- name: "Validate"
       #  run: echo "SKIP_TF_APPLY=$(sh ~/validate_tfplan.sh)" >> $GITHUB_ENV
         
